@@ -1,12 +1,22 @@
 {
   "name": "cicd-docker-app",
-  "version": "1.0.0",
-  "description": "Sample Node.js app for CI/CD pipeline demonstration",
+  "version": "1.0.1",
+  "description": "Enhanced Node.js app for CI/CD pipeline demonstration with comprehensive API",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "jest --forceExit --detectOpenHandles",
-    "dev": "nodemon app.js"
+    "test:watch": "jest --watch --forceExit --detectOpenHandles",
+    "test:coverage": "jest --coverage --forceExit --detectOpenHandles",
+    "lint": "echo 'Add ESLint configuration for linting'",
+    "docker:build": "docker build -t cicd-docker-app:latest .",
+    "docker:run": "docker run -p 3000:3000 --name cicd-app-local cicd-docker-app:latest",
+    "docker:stop": "docker stop cicd-app-local && docker rm cicd-app-local",
+    "docker:logs": "docker logs -f cicd-app-local",
+    "compose:up": "docker-compose up -d",
+    "compose:down": "docker-compose down",
+    "compose:logs": "docker-compose logs -f"
   },
   "dependencies": {
     "express": "^4.18.2"
@@ -16,7 +26,29 @@
     "supertest": "^6.3.3",
     "nodemon": "^2.0.22"
   },
-  "keywords": ["nodejs", "docker", "cicd", "github-actions"],
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "*.js",
+      "!app.test.js",
+      "!jest.config.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
+  },
+  "keywords": [
+    "nodejs", 
+    "docker", 
+    "cicd", 
+    "github-actions", 
+    "express", 
+    "api", 
+    "rest"
+  ],
   "author": "DevOps Team",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
 }
