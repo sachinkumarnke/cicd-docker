@@ -509,6 +509,200 @@ app.get('/', (req, res) => {
                 background: rgba(33, 37, 41, 0.95);
             }
         }
+
+        /* Text Visibility Improvements */
+        .text-muted {
+            color: #6c757d !important;
+            font-weight: 500;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .lead {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .card-text {
+            color: #495057 !important;
+            font-weight: 500;
+        }
+
+        /* Enhanced contrast for better readability */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .glass-card p, .glass-card li {
+            color: #495057 !important;
+            font-weight: 500;
+        }
+
+        /* Project Overview Section */
+        .project-overview {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 5rem 0;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .overview-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .overview-text {
+            color: #495057;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Diagram Styles */
+        .diagram-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .diagram-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .architecture-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .arch-component {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .arch-component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .arch-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .arch-title {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .arch-desc {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Technology Stack Visualization */
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .tech-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-name {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -527,6 +721,11 @@ app.get('/', (req, res) => {
                     <li class="nav-item">
                         <a class="nav-link" href="#home">
                             <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">
+                            <i class="fas fa-info-circle me-1"></i>Overview
                         </a>
                     </li>
                     <li class="nav-item">
@@ -598,7 +797,231 @@ app.get('/', (req, res) => {
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Project Overview Section -->
+    <section id="overview" class="project-overview">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        What This Project Does
+                    </h2>
+                    <p class="lead">A complete CI/CD pipeline demonstration with modern DevOps practices</p>
+                </div>
+            </div>
+
+            <!-- Project Description -->
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="overview-card">
+                        <h3 class="overview-title">
+                            <i class="fas fa-rocket me-2"></i>
+                            Complete DevOps Solution
+                        </h3>
+                        <p class="overview-text">
+                            This project demonstrates a <strong>production-ready CI/CD pipeline</strong> using modern DevOps tools and practices. 
+                            It showcases how to build, test, secure, and deploy a Node.js application using Docker containers, 
+                            GitHub Actions, and comprehensive monitoring capabilities.
+                        </p>
+                        <p class="overview-text">
+                            The application serves as both a <strong>functional web dashboard</strong> and a <strong>learning resource</strong> 
+                            for developers wanting to understand modern DevOps workflows, containerization, and automated deployment strategies.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CI/CD Pipeline Flow Diagram -->
+            <div class="diagram-container">
+                <h3 class="diagram-title">
+                    <i class="fas fa-code-branch me-2"></i>
+                    CI/CD Pipeline Flow
+                </h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <i class="fab fa-github d-block mb-2"></i>
+                        Code Push
+                    </div>
+                    <div class="flow-step">
+                        <i class="fas fa-vial d-block mb-2"></i>
+                        Run Tests
+                    </div>
+                    <div class="flow-step">
+                        <i class="fas fa-shield-alt d-block mb-2"></i>
+                        Security Scan
+                    </div>
+                    <div class="flow-step">
+                        <i class="fab fa-docker d-block mb-2"></i>
+                        Build Image
+                    </div>
+                    <div class="flow-step">
+                        <i class="fas fa-cloud-upload-alt d-block mb-2"></i>
+                        Deploy
+                    </div>
+                </div>
+                <p class="text-muted mt-3">
+                    Automated pipeline triggered on every code push, ensuring quality and security at each step
+                </p>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="diagram-container">
+                <h3 class="diagram-title">
+                    <i class="fas fa-sitemap me-2"></i>
+                    System Architecture
+                </h3>
+                <div class="architecture-diagram">
+                    <div class="arch-component">
+                        <div class="arch-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h5 class="arch-title">Web Interface</h5>
+                        <p class="arch-desc">Professional dashboard with real-time monitoring and user management</p>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h5 class="arch-title">Node.js API</h5>
+                        <p class="arch-desc">RESTful API with CRUD operations, validation, and error handling</p>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <h5 class="arch-title">Docker Container</h5>
+                        <p class="arch-desc">Multi-stage builds with security scanning and health checks</p>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h5 class="arch-title">Load Balancer</h5>
+                        <p class="arch-desc">Nginx reverse proxy with rate limiting and SSL termination</p>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="arch-title">Monitoring</h5>
+                        <p class="arch-desc">Real-time health checks, metrics collection, and alerting</p>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="arch-title">Security</h5>
+                        <p class="arch-desc">Vulnerability scanning, SBOM generation, and security headers</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Stack -->
+            <div class="diagram-container">
+                <h3 class="diagram-title">
+                    <i class="fas fa-layer-group me-2"></i>
+                    Technology Stack
+                </h3>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fab fa-node-js" style="color: #339933;"></i>
+                        </div>
+                        <div class="tech-name">Node.js</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fab fa-js-square" style="color: #f7df1e;"></i>
+                        </div>
+                        <div class="tech-name">Express.js</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fab fa-docker" style="color: #2496ed;"></i>
+                        </div>
+                        <div class="tech-name">Docker</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fab fa-github" style="color: #333;"></i>
+                        </div>
+                        <div class="tech-name">GitHub Actions</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fab fa-bootstrap" style="color: #7952b3;"></i>
+                        </div>
+                        <div class="tech-name">Bootstrap 5</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">
+                            <i class="fas fa-code" style="color: #e34c26;"></i>
+                        </div>
+                        <div class="tech-name">HTML5/CSS3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features Overview -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="overview-card">
+                        <h4 class="overview-title">
+                            <i class="fas fa-cogs me-2"></i>
+                            DevOps Features
+                        </h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Automated CI/CD Pipeline</strong> - GitHub Actions workflow</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Multi-stage Docker Builds</strong> - Optimized production images</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Security Scanning</strong> - Trivy and Snyk integration</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Health Monitoring</strong> - Comprehensive health checks</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Load Balancing</strong> - Nginx reverse proxy</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="overview-card">
+                        <h4 class="overview-title">
+                            <i class="fas fa-laptop-code me-2"></i>
+                            Development Features
+                        </h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>REST API</strong> - Complete CRUD operations</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Real-time Dashboard</strong> - Live monitoring interface</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Comprehensive Testing</strong> - Unit and integration tests</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Interactive Documentation</strong> - API testing capabilities</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Responsive Design</strong> - Mobile-first approach</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Use Cases -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="overview-card">
+                        <h4 class="overview-title">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Perfect For Learning
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6 class="text-primary"><i class="fas fa-graduation-cap me-2"></i>Students</h6>
+                                <p class="overview-text">Learn modern DevOps practices, containerization, and CI/CD pipelines through hands-on experience.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="text-primary"><i class="fas fa-code me-2"></i>Developers</h6>
+                                <p class="overview-text">Understand how to implement automated testing, security scanning, and deployment strategies.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="text-primary"><i class="fas fa-briefcase me-2"></i>Professionals</h6>
+                                <p class="overview-text">Showcase technical skills with a production-ready application demonstrating best practices.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     <section id="features" class="py-5">
         <div class="container">
             <div class="row mb-5">
@@ -1181,6 +1604,7 @@ SNYK_TOKEN=your-snyk-token (optional)</div>
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="#home" class="text-muted">Home</a></li>
+                        <li><a href="#overview" class="text-muted">Project Overview</a></li>
                         <li><a href="#dashboard" class="text-muted">Dashboard</a></li>
                         <li><a href="#features" class="text-muted">Features</a></li>
                         <li><a href="#documentation" class="text-muted">Documentation</a></li>
