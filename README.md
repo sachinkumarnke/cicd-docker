@@ -1,6 +1,7 @@
 # CI/CD Pipeline with GitHub Actions & Docker
 
 A complete CI/CD pipeline demonstration using GitHub Actions, Docker, and local deployment options with enhanced API functionality and comprehensive testing.
+<img width="1900" height="973" alt="image" src="https://github.com/user-attachments/assets/e43dd396-d4c9-4525-9906-99a7987697f2" />
 
 ## 🚀 Project Overview
 
