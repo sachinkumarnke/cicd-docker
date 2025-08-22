@@ -80,31 +80,137 @@ app.get('/', (req, res) => {
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
+            padding-top: 80px; /* Account for fixed navbar */
         }
 
-        /* Navigation Styles */
-        .navbar-custom {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        /* Ensure all text is visible */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
+        /* Fix for navbar text visibility */
+        .navbar-light .navbar-nav .nav-link {
+            color: #212529 !important;
+            font-weight: 600 !important;
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover,
+        .navbar-light .navbar-nav .nav-link:focus {
             color: var(--primary-color) !important;
         }
 
+        .navbar-light .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: 700 !important;
+        }
+
+        .navbar-light .navbar-brand:hover,
+        .navbar-light .navbar-brand:focus {
+            color: var(--primary-color) !important;
+        }
+
+        /* Additional navbar visibility fixes */
+        .navbar .nav-link,
+        .navbar-nav .nav-link,
         .nav-link {
-            font-weight: 500;
+            color: #212529 !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar-nav .nav-link:hover,
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            text-decoration: none !important;
+        }
+
+        /* Ensure icons are visible too */
+        .navbar .nav-link i,
+        .navbar-brand i {
+            color: inherit !important;
+        }
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700 !important;
+            font-size: 1.5rem !important;
+            color: var(--primary-color) !important;
+            text-decoration: none !important;
+        }
+
+        .navbar-brand:hover {
+            color: var(--primary-color) !important;
+            text-decoration: none !important;
+        }
+
+        .nav-link {
+            font-weight: 600 !important;
             color: var(--dark-color) !important;
             transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            margin: 0 0.2rem;
         }
 
         .nav-link:hover {
             color: var(--primary-color) !important;
+            background-color: rgba(13, 110, 253, 0.1) !important;
             transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+            background-color: rgba(13, 110, 253, 0.15) !important;
+            font-weight: 700 !important;
+        }
+
+        .navbar-toggler {
+            border: 2px solid var(--primary-color) !important;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2813, 110, 253, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+        }
+
+        /* Ensure navbar text is visible on all backgrounds */
+        .navbar-nav .nav-link {
+            color: #212529 !important;
+            font-weight: 600 !important;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: var(--primary-color) !important;
+        }
+
+        /* Mobile navbar improvements */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                border-radius: 10px;
+                padding: 1rem;
+                margin-top: 1rem;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-link {
+                padding: 0.75rem 1rem !important;
+                margin: 0.2rem 0;
+            }
         }
 
         /* Dashboard Container */
@@ -707,49 +813,49 @@ app.get('/', (req, res) => {
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#home">
+            <a class="navbar-brand fw-bold" href="#home">
                 <i class="fas fa-rocket me-2"></i>
                 CI/CD Docker App
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">
+                        <a class="nav-link fw-semibold" href="#home">
                             <i class="fas fa-home me-1"></i>Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#overview">
+                        <a class="nav-link fw-semibold" href="#overview">
                             <i class="fas fa-info-circle me-1"></i>Overview
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#dashboard">
+                        <a class="nav-link fw-semibold" href="#dashboard">
                             <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">
+                        <a class="nav-link fw-semibold" href="#features">
                             <i class="fas fa-star me-1"></i>Features
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#documentation">
+                        <a class="nav-link fw-semibold" href="#documentation">
                             <i class="fas fa-book me-1"></i>Documentation
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#api">
+                        <a class="nav-link fw-semibold" href="#api">
                             <i class="fas fa-code me-1"></i>API
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/sachinkumarnke/cicd-docker" target="_blank">
+                        <a class="nav-link fw-semibold" href="https://github.com/sachinkumarnke/cicd-docker" target="_blank">
                             <i class="fab fa-github me-1"></i>GitHub
                         </a>
                     </li>
