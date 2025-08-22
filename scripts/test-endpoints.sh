@@ -151,7 +151,7 @@ run_basic_tests() {
     
     # Test main endpoint (now returns HTML)
     test_endpoint "GET" "/" "200" "Main endpoint returns 200"
-    test_html_response "GET" "/" "Main endpoint returns web dashboard" "CI/CD Docker App - Dashboard"
+    test_html_response "GET" "/" "Main endpoint returns web dashboard" "Professional DevOps Dashboard"
     
     # Test health endpoint
     test_endpoint "GET" "/health" "200" "Health endpoint returns 200"
@@ -232,8 +232,8 @@ run_web_interface_tests() {
     log_info "Running web interface tests..."
     
     # Test web dashboard components
-    test_html_response "GET" "/" "Web dashboard has title" "<title>CI/CD Docker App - Dashboard</title>"
-    test_html_response "GET" "/" "Web dashboard has Bootstrap CSS" "bootstrap@5.3.0"
+    test_html_response "GET" "/" "Web dashboard has title" "<title>CI/CD Docker App - Professional DevOps Dashboard</title>"
+    test_html_response "GET" "/" "Web dashboard has Bootstrap CSS" "bootstrap@5.3.0/dist/css/bootstrap.min.css"
     test_html_response "GET" "/" "Web dashboard has FontAwesome icons" "font-awesome"
     test_html_response "GET" "/" "Web dashboard has health section" "System Health"
     test_html_response "GET" "/" "Web dashboard has user management" "User Management"

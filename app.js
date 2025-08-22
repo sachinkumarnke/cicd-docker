@@ -45,10 +45,14 @@ app.get('/', (req, res) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI/CD Docker App - Dashboard</title>
+    <title>CI/CD Docker App - Professional DevOps Dashboard</title>
+    <meta name="description" content="Modern CI/CD Docker application with comprehensive monitoring, user management, and API testing capabilities">
+    <meta name="keywords" content="CI/CD, Docker, DevOps, Node.js, API, Dashboard, Monitoring">
+    <meta name="author" content="DevOps Team">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #0d6efd;
@@ -59,6 +63,9 @@ app.get('/', (req, res) => {
             --info-color: #0dcaf0;
             --dark-color: #212529;
             --light-color: #f8f9fa;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
         * {
@@ -69,16 +76,44 @@ app.get('/', (req, res) => {
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--gradient-primary);
             min-height: 100vh;
             color: #333;
+            line-height: 1.6;
         }
 
+        /* Navigation Styles */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Container */
         .dashboard-container {
             min-height: 100vh;
             padding: 2rem 0;
         }
 
+        /* Glass Card Effects */
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -86,6 +121,7 @@ app.get('/', (req, res) => {
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .glass-card:hover {
@@ -93,16 +129,55 @@ app.get('/', (req, res) => {
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
+        .glass-card-dark {
+            background: rgba(33, 37, 41, 0.95);
+            color: white;
+        }
+
+        /* Header Cards */
         .header-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--gradient-primary);
             color: white;
             border: none;
         }
 
+        .hero-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Statistics Cards */
         .stat-card {
             text-align: center;
             padding: 2rem;
             height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
         }
 
         .stat-icon {
@@ -122,8 +197,10 @@ app.get('/', (req, res) => {
             opacity: 0.8;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: 500;
         }
 
+        /* Health Indicators */
         .health-indicator {
             display: inline-flex;
             align-items: center;
@@ -140,11 +217,23 @@ app.get('/', (req, res) => {
             border: 1px solid rgba(25, 135, 84, 0.2);
         }
 
+        /* User Cards */
         .user-card {
             transition: all 0.3s ease;
             border: none;
             border-radius: 15px;
             overflow: hidden;
+            position: relative;
+        }
+
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
         }
 
         .user-card:hover {
@@ -161,6 +250,7 @@ app.get('/', (req, res) => {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
+        /* Role Badges */
         .role-badge {
             font-size: 0.75rem;
             padding: 0.25rem 0.75rem;
@@ -188,12 +278,19 @@ app.get('/', (req, res) => {
             border: 1px solid rgba(253, 126, 20, 0.2);
         }
 
+        /* API Endpoints */
         .api-endpoint {
             background: rgba(108, 117, 125, 0.05);
             border-radius: 10px;
             padding: 1rem;
             margin-bottom: 1rem;
             border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .api-endpoint:hover {
+            background: rgba(108, 117, 125, 0.1);
+            transform: translateX(5px);
         }
 
         .method-badge {
@@ -214,6 +311,115 @@ app.get('/', (req, res) => {
             color: white;
         }
 
+        /* Code Blocks */
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        /* Buttons */
+        .btn-custom {
+            border-radius: 50px;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-gradient {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-gradient:hover {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 30px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            height: 100%;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Documentation Sections */
+        .doc-section {
+            margin-bottom: 3rem;
+        }
+
+        .doc-nav {
+            position: sticky;
+            top: 100px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .doc-nav .nav-link {
+            color: var(--dark-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .doc-nav .nav-link:hover,
+        .doc-nav .nav-link.active {
+            background: var(--primary-color);
+            color: white !important;
+        }
+
+        /* Animations */
         .loading-spinner {
             display: inline-block;
             width: 20px;
@@ -247,42 +453,30 @@ app.get('/', (req, res) => {
             100% { transform: scale(1); }
         }
 
-        .btn-custom {
-            border-radius: 50px;
-            padding: 0.75rem 2rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
         }
 
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--dark-color);
-            position: relative;
-            padding-left: 1rem;
+        .slide-in-right {
+            animation: slideInRight 0.6s ease-out;
         }
 
-        .section-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
-            border-radius: 2px;
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
             .dashboard-container {
                 padding: 1rem 0;
             }
@@ -298,33 +492,193 @@ app.get('/', (req, res) => {
             .stat-icon {
                 font-size: 2.5rem;
             }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            .glass-card {
+                background: rgba(33, 37, 41, 0.95);
+                color: white;
+            }
+            
+            .navbar-custom {
+                background: rgba(33, 37, 41, 0.95);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
         <div class="container">
-            <!-- Header -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="glass-card header-card p-4 text-center fade-in">
-                        <h1 class="display-4 fw-bold mb-2">
-                            <i class="fas fa-rocket me-3"></i>
-                            CI/CD Docker App
-                        </h1>
-                        <p class="lead mb-3">Modern DevOps Dashboard with Real-time Monitoring</p>
-                        <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
-                            <span class="badge bg-light text-dark px-3 py-2">
-                                <i class="fas fa-code-branch me-2"></i>Version 1.0.1
-                            </span>
-                            <span class="badge bg-light text-dark px-3 py-2">
-                                <i class="fas fa-server me-2"></i>Node.js
-                            </span>
-                            <span class="badge bg-light text-dark px-3 py-2">
-                                <i class="fab fa-docker me-2"></i>Docker
-                            </span>
-                        </div>
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-rocket me-2"></i>
+                CI/CD Docker App
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#dashboard">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">
+                            <i class="fas fa-star me-1"></i>Features
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#documentation">
+                            <i class="fas fa-book me-1"></i>Documentation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#api">
+                            <i class="fas fa-code me-1"></i>API
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/sachinkumarnke/cicd-docker" target="_blank">
+                            <i class="fab fa-github me-1"></i>GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="hero-title fade-in">
+                        <i class="fas fa-rocket me-3"></i>
+                        CI/CD Docker App
+                    </h1>
+                    <p class="hero-subtitle fade-in" style="animation-delay: 0.2s">
+                        Professional DevOps Dashboard with Real-time Monitoring, User Management, and Comprehensive API Testing
+                    </p>
+                    <div class="fade-in" style="animation-delay: 0.4s">
+                        <a href="#dashboard" class="btn btn-light btn-custom me-3">
+                            <i class="fas fa-play me-2"></i>View Dashboard
+                        </a>
+                        <a href="#documentation" class="btn btn-outline-light btn-custom">
+                            <i class="fas fa-book me-2"></i>Documentation
+                        </a>
                     </div>
+                    <div class="mt-4 fade-in" style="animation-delay: 0.6s">
+                        <span class="badge bg-light text-dark px-3 py-2 me-2">
+                            <i class="fas fa-code-branch me-2"></i>Version 1.0.1
+                        </span>
+                        <span class="badge bg-light text-dark px-3 py-2 me-2">
+                            <i class="fas fa-server me-2"></i>Node.js 18+
+                        </span>
+                        <span class="badge bg-light text-dark px-3 py-2 me-2">
+                            <i class="fab fa-docker me-2"></i>Docker Ready
+                        </span>
+                        <span class="badge bg-light text-dark px-3 py-2">
+                            <i class="fas fa-shield-alt me-2"></i>Security Scanned
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">
+                        <i class="fas fa-star me-2"></i>
+                        Key Features
+                    </h2>
+                    <p class="lead text-muted">Everything you need for modern DevOps workflows</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="glass-card feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h4>Real-time Monitoring</h4>
+                        <p class="text-muted">Live system health checks, memory usage tracking, and performance metrics with auto-refresh capabilities.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card feature-card fade-in" style="animation-delay: 0.2s">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>User Management</h4>
+                        <p class="text-muted">Complete CRUD operations for user management with role-based access control and avatar integration.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card feature-card fade-in" style="animation-delay: 0.4s">
+                        <div class="feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>REST API</h4>
+                        <p class="text-muted">Comprehensive RESTful API with filtering, pagination, validation, and structured error handling.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card feature-card fade-in" style="animation-delay: 0.6s">
+                        <div class="feature-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <h4>Docker Ready</h4>
+                        <p class="text-muted">Multi-stage Docker builds, optimized images, health checks, and production-ready containerization.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card feature-card fade-in" style="animation-delay: 0.8s">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Security First</h4>
+                        <p class="text-muted">Vulnerability scanning with Trivy and Snyk, SBOM generation, and security best practices.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card feature-card fade-in" style="animation-delay: 1s">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4>CI/CD Pipeline</h4>
+                        <p class="text-muted">GitHub Actions workflow with automated testing, building, security scanning, and deployment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Live Dashboard
+                    </h2>
+                    <p class="lead text-muted">Real-time system monitoring and user management</p>
                 </div>
             </div>
 
@@ -442,60 +796,462 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- API Endpoints -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="glass-card p-4 fade-in" style="animation-delay: 0.7s">
-                        <h3 class="section-title">
-                            <i class="fas fa-code me-2"></i>
-                            API Endpoints
-                        </h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="api-endpoint">
-                                    <span class="method-badge method-get">GET</span>
-                                    <code>/health</code>
-                                    <p class="mb-0 mt-2 text-muted">System health check</p>
-                                </div>
-                                <div class="api-endpoint">
-                                    <span class="method-badge method-get">GET</span>
-                                    <code>/api/users</code>
-                                    <p class="mb-0 mt-2 text-muted">Get all users with filtering</p>
-                                </div>
-                                <div class="api-endpoint">
-                                    <span class="method-badge method-get">GET</span>
-                                    <code>/api/users/:id</code>
-                                    <p class="mb-0 mt-2 text-muted">Get user by ID</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="api-endpoint">
-                                    <span class="method-badge method-post">POST</span>
-                                    <code>/api/users</code>
-                                    <p class="mb-0 mt-2 text-muted">Create new user</p>
-                                </div>
-                                <div class="api-endpoint">
-                                    <span class="method-badge method-get">GET</span>
-                                    <code>/api</code>
-                                    <p class="mb-0 mt-2 text-muted">API documentation</p>
-                                </div>
+    <!-- Documentation Section -->
+    <section id="documentation" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">
+                        <i class="fas fa-book me-2"></i>
+                        Documentation
+                    </h2>
+                    <p class="lead text-muted">Complete guide to get started with the CI/CD Docker App</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="doc-nav">
+                        <h5 class="mb-3">Quick Navigation</h5>
+                        <nav class="nav flex-column">
+                            <a class="nav-link active" href="#quick-start">Quick Start</a>
+                            <a class="nav-link" href="#installation">Installation</a>
+                            <a class="nav-link" href="#docker-setup">Docker Setup</a>
+                            <a class="nav-link" href="#api-usage">API Usage</a>
+                            <a class="nav-link" href="#testing">Testing</a>
+                            <a class="nav-link" href="#deployment">Deployment</a>
+                        </nav>
+                    </div>
+                </div>
+                
+                <div class="col-lg-9">
+                    <!-- Quick Start -->
+                    <div class="doc-section" id="quick-start">
+                        <div class="glass-card p-4">
+                            <h3><i class="fas fa-rocket me-2"></i>Quick Start</h3>
+                            <p>Get the CI/CD Docker App running in minutes:</p>
+                            
+                            <h5>1. Clone the Repository</h5>
+                            <div class="code-block mb-3">
+git clone https://github.com/sachinkumarnke/cicd-docker.git
+cd cicd-docker</div>
+
+                            <h5>2. Install Dependencies</h5>
+                            <div class="code-block mb-3">
+npm install</div>
+
+                            <h5>3. Start the Application</h5>
+                            <div class="code-block mb-3">
+npm start</div>
+
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                The application will be available at <strong>http://localhost:3000</strong>
                             </div>
                         </div>
-                        <div class="text-center mt-4">
-                            <button class="btn btn-outline-primary btn-custom" onclick="testAllEndpoints()">
-                                <i class="fas fa-play me-2"></i>Test All Endpoints
-                            </button>
+                    </div>
+
+                    <!-- Installation -->
+                    <div class="doc-section" id="installation">
+                        <div class="glass-card p-4">
+                            <h3><i class="fas fa-download me-2"></i>Installation</h3>
+                            
+                            <h5>Prerequisites</h5>
+                            <ul>
+                                <li><strong>Node.js</strong> (v18 or higher)</li>
+                                <li><strong>Docker</strong> and <strong>Docker Compose</strong></li>
+                                <li><strong>Git</strong></li>
+                                <li><strong>curl</strong> (for testing endpoints)</li>
+                            </ul>
+
+                            <h5>Development Setup</h5>
+                            <div class="code-block mb-3">
+# Install dependencies
+npm install
+
+# Run tests
+npm test
+
+# Start development server with auto-reload
+npm run dev</div>
+
+                            <h5>Available Scripts</h5>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Command</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>npm start</code></td>
+                                            <td>Start the production server</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>npm run dev</code></td>
+                                            <td>Start development server with auto-reload</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>npm test</code></td>
+                                            <td>Run all tests</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>npm run test:coverage</code></td>
+                                            <td>Run tests with coverage report</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Docker Setup -->
+                    <div class="doc-section" id="docker-setup">
+                        <div class="glass-card p-4">
+                            <h3><i class="fab fa-docker me-2"></i>Docker Setup</h3>
+                            
+                            <h5>Option 1: Quick Deployment Script</h5>
+                            <div class="code-block mb-3">
+./scripts/deploy-local.sh</div>
+                            <p>This script will build the image, run health checks, and test all endpoints.</p>
+
+                            <h5>Option 2: Docker Compose (Recommended)</h5>
+                            <div class="code-block mb-3">
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down</div>
+
+                            <h5>Option 3: Manual Docker Commands</h5>
+                            <div class="code-block mb-3">
+# Build the image
+docker build -t cicd-docker-app:latest .
+
+# Run the container
+docker run -d \\
+  --name cicd-app-local \\
+  -p 3000:3000 \\
+  -e NODE_ENV=production \\
+  --restart unless-stopped \\
+  cicd-docker-app:latest</div>
+
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Multi-stage builds</strong> ensure optimized production images with enhanced security.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API Usage -->
+                    <div class="doc-section" id="api-usage">
+                        <div class="glass-card p-4">
+                            <h3><i class="fas fa-code me-2"></i>API Usage</h3>
+                            
+                            <h5>Base URL</h5>
+                            <div class="code-block mb-3">
+http://localhost:3000</div>
+
+                            <h5>Authentication</h5>
+                            <p>Currently, no authentication is required. In production, implement proper authentication mechanisms.</p>
+
+                            <h5>Response Format</h5>
+                            <p>All API responses follow a consistent structure:</p>
+                            <div class="code-block mb-3">
+{
+  "success": true,
+  "data": {...},
+  "count": 3,
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}</div>
+
+                            <h5>Error Handling</h5>
+                            <div class="code-block mb-3">
+{
+  "success": false,
+  "error": "Error description",
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}</div>
+                        </div>
+                    </div>
+
+                    <!-- Testing -->
+                    <div class="doc-section" id="testing">
+                        <div class="glass-card p-4">
+                            <h3><i class="fas fa-vial me-2"></i>Testing</h3>
+                            
+                            <h5>Automated Testing</h5>
+                            <div class="code-block mb-3">
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch</div>
+
+                            <h5>API Endpoint Testing</h5>
+                            <div class="code-block mb-3">
+# Test all endpoints
+./scripts/test-endpoints.sh
+
+# Test against different environment
+./scripts/test-endpoints.sh http://staging.example.com</div>
+
+                            <h5>Manual Testing Examples</h5>
+                            <div class="code-block mb-3">
+# Health check
+curl http://localhost:3000/health
+
+# Get all users
+curl http://localhost:3000/api/users
+
+# Create a new user
+curl -X POST http://localhost:3000/api/users \\
+  -H "Content-Type: application/json" \\
+  -d '{"name":"John Doe","email":"john@example.com","role":"user"}'</div>
+                        </div>
+                    </div>
+
+                    <!-- Deployment -->
+                    <div class="doc-section" id="deployment">
+                        <div class="glass-card p-4">
+                            <h3><i class="fas fa-cloud me-2"></i>Deployment</h3>
+                            
+                            <h5>GitHub Actions CI/CD</h5>
+                            <p>The project includes a comprehensive GitHub Actions workflow that:</p>
+                            <ul>
+                                <li>Runs automated tests and security scans</li>
+                                <li>Builds multi-architecture Docker images</li>
+                                <li>Performs vulnerability scanning with Trivy and Snyk</li>
+                                <li>Generates SBOM for supply chain security</li>
+                                <li>Deploys to staging and production environments</li>
+                            </ul>
+
+                            <h5>Required GitHub Secrets</h5>
+                            <div class="code-block mb-3">
+DOCKER_USERNAME=your-dockerhub-username
+DOCKER_PASSWORD=your-dockerhub-password
+SNYK_TOKEN=your-snyk-token (optional)</div>
+
+                            <h5>Environment Variables</h5>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Default</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>NODE_ENV</code></td>
+                                            <td>development</td>
+                                            <td>Application environment</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>PORT</code></td>
+                                            <td>3000</td>
+                                            <td>Server port</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- API Section -->
+    <section id="api" class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title text-center">
+                        <i class="fas fa-code me-2"></i>
+                        API Reference
+                    </h2>
+                    <p class="lead text-muted">Complete REST API documentation with interactive testing</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="glass-card p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Available Endpoints</h4>
+                                <div class="api-endpoint">
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/health</code>
+                                    <p class="mb-0 mt-2 text-muted">System health check with detailed metrics</p>
+                                </div>
+                                <div class="api-endpoint">
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/api/users</code>
+                                    <p class="mb-0 mt-2 text-muted">Get all users with filtering and pagination</p>
+                                    <small class="text-info">Query params: ?role=admin&limit=10</small>
+                                </div>
+                                <div class="api-endpoint">
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/api/users/:id</code>
+                                    <p class="mb-0 mt-2 text-muted">Get specific user by ID</p>
+                                </div>
+                                <div class="api-endpoint">
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/api/users</code>
+                                    <p class="mb-0 mt-2 text-muted">Create new user</p>
+                                    <small class="text-info">Body: {"name":"John","email":"john@example.com","role":"user"}</small>
+                                </div>
+                                <div class="api-endpoint">
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/api</code>
+                                    <p class="mb-0 mt-2 text-muted">API documentation and metadata</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Interactive Testing</h4>
+                                <div class="mb-3">
+                                    <button class="btn btn-success btn-custom me-2 mb-2" onclick="testEndpoint('/health')">
+                                        <i class="fas fa-heartbeat me-1"></i>Test Health
+                                    </button>
+                                    <button class="btn btn-primary btn-custom me-2 mb-2" onclick="testEndpoint('/api/users')">
+                                        <i class="fas fa-users me-1"></i>Test Users
+                                    </button>
+                                    <button class="btn btn-info btn-custom me-2 mb-2" onclick="testEndpoint('/api/users/1')">
+                                        <i class="fas fa-user me-1"></i>Test User by ID
+                                    </button>
+                                    <button class="btn btn-warning btn-custom me-2 mb-2" onclick="testCreateUser()">
+                                        <i class="fas fa-plus me-1"></i>Test Create User
+                                    </button>
+                                </div>
+                                
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-gradient btn-custom" onclick="testAllEndpoints()">
+                                        <i class="fas fa-play me-2"></i>Test All Endpoints
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h5>Response Preview</h5>
+                                    <div id="apiResponse" class="code-block" style="min-height: 100px; max-height: 300px; overflow-y: auto;">
+                                        Click any test button to see API response here...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>
+                        <i class="fas fa-rocket me-2"></i>
+                        CI/CD Docker App
+                    </h5>
+                    <p class="text-muted">Professional DevOps dashboard with comprehensive monitoring, user management, and API testing capabilities.</p>
+                    <div class="d-flex gap-3">
+                        <a href="https://github.com/sachinkumarnke/cicd-docker" class="text-light" target="_blank">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+                        <a href="https://hub.docker.com/r/sachinkumarnke/cicd-docker" class="text-light" target="_blank">
+                            <i class="fab fa-docker fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-muted">Home</a></li>
+                        <li><a href="#dashboard" class="text-muted">Dashboard</a></li>
+                        <li><a href="#features" class="text-muted">Features</a></li>
+                        <li><a href="#documentation" class="text-muted">Documentation</a></li>
+                        <li><a href="#api" class="text-muted">API Reference</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Technical Stack</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fab fa-node-js me-2"></i>Node.js 18+</li>
+                        <li><i class="fab fa-js-square me-2"></i>Express.js</li>
+                        <li><i class="fab fa-docker me-2"></i>Docker & Docker Compose</li>
+                        <li><i class="fab fa-github me-2"></i>GitHub Actions</li>
+                        <li><i class="fab fa-bootstrap me-2"></i>Bootstrap 5</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 DevOps Team. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <span class="badge bg-primary me-2">Version 1.0.1</span>
+                    <span class="badge bg-success">Production Ready</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script>
         let requestCount = 0;
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active navigation link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
 
         // Update request counter
         function updateRequestCount() {
@@ -590,6 +1346,84 @@ app.get('/', (req, res) => {
             loadUsers(role, limit);
         }
 
+        // Test individual endpoint
+        async function testEndpoint(endpoint) {
+            try {
+                updateRequestCount();
+                const response = await fetch(endpoint);
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('apiResponse');
+                responseDiv.innerHTML = \`
+                    <div class="text-success mb-2">
+                        <i class="fas fa-check-circle me-1"></i>
+                        \${endpoint} - Status: \${response.status}
+                    </div>
+                    <pre><code class="language-json">\${JSON.stringify(data, null, 2)}</code></pre>
+                \`;
+                
+                // Re-highlight code
+                if (window.Prism) {
+                    Prism.highlightAll();
+                }
+                
+            } catch (error) {
+                const responseDiv = document.getElementById('apiResponse');
+                responseDiv.innerHTML = \`
+                    <div class="text-danger">
+                        <i class="fas fa-times-circle me-1"></i>
+                        Error testing \${endpoint}: \${error.message}
+                    </div>
+                \`;
+            }
+        }
+
+        // Test create user
+        async function testCreateUser() {
+            try {
+                updateRequestCount();
+                const testUser = {
+                    name: 'Test User ' + Date.now(),
+                    email: 'test' + Date.now() + '@example.com',
+                    role: 'user'
+                };
+                
+                const response = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testUser)
+                });
+                
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('apiResponse');
+                responseDiv.innerHTML = \`
+                    <div class="text-success mb-2">
+                        <i class="fas fa-check-circle me-1"></i>
+                        POST /api/users - Status: \${response.status}
+                    </div>
+                    <pre><code class="language-json">\${JSON.stringify(data, null, 2)}</code></pre>
+                \`;
+                
+                // Re-highlight code and refresh users
+                if (window.Prism) {
+                    Prism.highlightAll();
+                }
+                loadUsers();
+                
+            } catch (error) {
+                const responseDiv = document.getElementById('apiResponse');
+                responseDiv.innerHTML = \`
+                    <div class="text-danger">
+                        <i class="fas fa-times-circle me-1"></i>
+                        Error creating user: \${error.message}
+                    </div>
+                \`;
+            }
+        }
+
         // Test all endpoints
         async function testAllEndpoints() {
             const endpoints = [
@@ -611,7 +1445,14 @@ app.get('/', (req, res) => {
                 }
             }
             
-            alert('Endpoint Test Results:\\n\\n' + results.join('\\n'));
+            const responseDiv = document.getElementById('apiResponse');
+            responseDiv.innerHTML = \`
+                <div class="text-info mb-2">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Endpoint Test Results:
+                </div>
+                <pre>\${results.join('\\n')}</pre>
+            \`;
         }
 
         // Initialize dashboard
